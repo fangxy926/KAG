@@ -185,7 +185,7 @@ class OpenSPGGraphApi(GraphApiABC):
                 logger.debug(f"get_entity_one_hop failed! {e}", exc_info=True)
 
         if one_hop is None:
-            logger.warning(f"get_entity_one_hop failed! {dsl_query}")
+            logger.debug(f"get_entity_one_hop failed! {dsl_query}")
             return None
         return copy_one_hop_graph_data(one_hop, "s")
 
@@ -226,7 +226,7 @@ class OpenSPGGraphApi(GraphApiABC):
         res = self.rc.syn_execute(dsl_content=dsl, **kwargs)
         task_resp: ReasonTask = res.task
         if task_resp is None or task_resp.status != "FINISH":
-            logger.warning(f"execute dsl failed! {res}")
+            logger.debug(f"execute dsl failed! {res}")
             return TableData()
         detail = task_resp.result_table_result
         return TableData.from_dict({"header": detail.header, "data": detail.rows})
